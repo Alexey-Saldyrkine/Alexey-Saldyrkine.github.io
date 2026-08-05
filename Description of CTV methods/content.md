@@ -29,7 +29,7 @@ A compile-time variable is a constexpr variable that acts like a normal run-time
 
 To make a constant expression act like a variable, you need the ability to store a state and retrieve it during compile time. In this case, a state is the value of the variable. Two methods for storing state will be described: the template-class specialization method and the friend-function injection method. Both methods act like key-value maps, allowing you to store and retrieve values by key.
 
-The class template specialization (CTS) method uses a template class specialization to store states. Where the template parameter of the class specialization is the key, and the value is within the definition of the specialization.
+The class template specialization (CTS) method uses a class template  specialization to store states. Where the template parameter of the class specialization is the key, and the value is within the definition of the specialization.
 
 ​The friend function injection (FFI) method uses friend-function overloading to store a state. The function parameter's data type is the key, and the value is stored in the function body as the return value.
 
@@ -531,8 +531,6 @@ consteval{
 static_assert(cts_list.back()==33);
 
 
-
-
 constexpr CTS_variable<double> cts_var(^^storage_class);
 
 
@@ -586,8 +584,6 @@ static_assert(ffi_list[0]==53);
 static_assert(ffi_list.back()==33);
 
 
-
-
 constexpr FFI_variable<char> ffi_var;
 
 
@@ -608,8 +604,8 @@ static_assert(ffi_var == 'g');
 ```
 <a name="Bibliography"></a>
 ## Bibliography
-* Reflection for C++26 \(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html\)
-* Annotations for Reflection \(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3394r4.html\)
-* Miscellaneous Reflection Cleanup \(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3795r2.html\)
-* Special thanks to u/friedkeenan for sharing his implementation of the FFI method on the cpp reddit \(https://www.reddit.com/r/cpp/comments/1t75cn1/cvl_a_c26_library_for_mutating_consteval_state/\)
+* Reflection for C++26 \([https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html)\)
+* Annotations for Reflection \([https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3394r4.html](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3394r4.html)\)
+* Miscellaneous Reflection Cleanup \([https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3795r2.html](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3795r2.html)\)
+* Special thanks to u/friedkeenan for sharing his implementation of the FFI method on the cpp reddit \([https://www.reddit.com/r/cpp/comments/1t75cn1/cvl_a_c26_library_for_mutating_consteval_state/](https://www.reddit.com/r/cpp/comments/1t75cn1/cvl_a_c26_library_for_mutating_consteval_state/)\)
 
