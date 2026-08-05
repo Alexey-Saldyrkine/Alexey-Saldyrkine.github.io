@@ -1,5 +1,3 @@
-# Alexey-Saldyrkine.github.io
+# Articles
 
-Test test
-
-[Go to other](other.md)
+[Methods To Achieve Compile-Time Variables In C++](Description of CTV methods/content.md)
