@@ -2,7 +2,7 @@
 
 By Alexey Saldyrkine
 
-Table of contents
+### Table of contents
 - [What is a Compile-Time Variable](#What-is-a-Compile-Time-Variable)
 - [Methods overview](#Methods-overview)
 - [How to make a variable using a map](#How-to-make-a-variable-using-a-map)
@@ -19,10 +19,12 @@ Table of contents
 
 The following is a detailed description and explanation of how to create and use maps, lists, and variables at compile time in C++. Familiarity with C++26 reflection is recommended, but a brief description of the reflection functions used will be provided.
 
+<a name="What-is-a-Compile-Time-Variable"></a>
 ## What is a Compile-Time Variable
 
 A compile-time variable is a constexpr variable that acts like a normal run-time variable. Its value can be changed throughout the compilation phase. This differs from normal constexpr variables, whose value can’t be changed, and run-time variables, which aren’t constant expressions and can’t be used during compilation.
 
+<a name="Methods-overview"></a>
 ## Methods overview
 
 To make a constant expression act like a variable, you need the ability to store a state and retrieve it during compile time. In this case, a state is the value of the variable. Two methods for storing state will be described: the template-class specialization method and the friend-function injection method. Both methods act like key-value maps, allowing you to store and retrieve values by key.
@@ -33,6 +35,7 @@ The class template specialization (CTS) method uses a template class specializat
 
 Both of these methods can be used to set a key-value pair, retrieve a value by key, and test whether a given key is set. An important thing to note is that these methods can only add new key-value pairs. They can’t remove existing key-value pairs.
 
+<a name="How-to-make-a-variable-using-a-map"></a>
 ## How to make a variable using a map
 
 Since states can only be added and not removed, the variable must have a way to find and refer to its latest set value. This can be done by using an append-only list. When the variable is reassigned, the new value is pushed to the end of the list. This way, the variable's current value will be the back element of the list.
@@ -41,6 +44,7 @@ The list can be made from a key-value map. The list can be thought of as an infi
 
 The map can be implemented using the CTS and FFI methods to store and retrieve key-value pairs.
 
+<a name="C++26-and-reflection"></a>
 ## C++26 and reflection
 
 C++26 introduced static reflection to the language. Reflection allows a program to introspect itself and automatically generate code during compilation.
@@ -75,10 +79,12 @@ meta\:\:is_complete_type. The meta\:\:is_complete_type function is used to check
 
 Annotations. Annotations are a new way to attach information to declarations that reflection can observe. They allow attaching user-defined metadata to code declarations and retrieving it at compile-time. Annotations can be thought of as attributes that can have any reflectable value and have that value be accessible during compilation.
 
+<a name="Detailed-explanation"></a>
 ## Detailed explanation
  
 As the two methods are used to create key-value maps, they will be described using three free functions: set, get, and check. The ‘set’ function will store a key-value pair. The ‘get’ function will retrieve the value for a given key. The ‘check’ function checks whether a given key is set. The key and value parameter types will be ‘meta::info’. This allows using any reflectable value as the key or value without having to template the free functions. Additionally, the functions will accept the parameter ‘tag’ of type meta\:\:info. The tag is a unique reflection value that will identify different maps. The tag acts like a second key, allowing different maps to use the same main keys without overlap.
 
+<a name="CTS"></a>
 ### CTS
 
 The template class specialization method will create template specializations of a base template class to store key-value pairs. To save a key-value pair, a specialization with the tag and the key as template parameters will be created, and the value will be stored as an annotation on a specialization’s data member. To retrieve a value, the base template class is instantiated with the tag and key as template parameters. To check whether a tag and key were set, the instantiated class will be checked to see if it is a complete class.
@@ -140,6 +146,7 @@ consteval bool CTS_check(meta::info tag,meta::info key, meta::info TBC){
 
 First, the function retrieves the specialization of TBC with the tag and key as template parameters, as before. To tell if the tag and key were set, the ‘meta\:\:is_complete_type’ function is used. Here is the reason the TBC must be declared as an incomplete type. If the tag and key weren't set, instantiating the TBC with them will result in an incomplete class, as the TBC is incomplete and there is no specialization for the tag and key. If the tag and key are set,the specialization will be used during instantiation, and the resulting class will be complete, since the ‘set’ function introduced the specialization.
 
+<a name="FFI"></a>
 ### FFI
 The friend function injection method uses two classes, FFI_get_struct and FFI_set_struct, to store and retrieve key-value pairs. These classes will use the same two friend functions: get_func and check_func. When a friend function is declared in a class, it belongs to the class's innermost enclosing namespace. Since the classes will use the same friend functions, they must be declared within the same namespace.
 
@@ -254,6 +261,7 @@ consteval bool FFI_check(meta::info tag, meta::info key){
 
 The ‘check’ function uses the template variable ‘FFI_check_helper’ in a similar way to the ‘get’ function, except it returns a reflection of the ‘check_func’ function. The ‘meta\:\:parameters_of’ function will return a list of reflections of the function’s parameters. By indexing the list at 0, you get the reflection of the first parameter of ‘check_func’. This parameter will have an identifier only if the tag and key were set. The ‘meta\:\:has_identifier’ function checks whether the given parameter has an identifier. The result is returned.
 
+<a name="Map"></a>
 ### Map
 
 The compile-time map will act like std\:\:map. For simplicity, this map will only have three member functions: insert, operator[], and contains. They will be wrapper functions over the set, get, and check functions. The map will have two template parameters: the key and value types. Key_t and Value_t, respectively. The only difference between the interfaces of the CTS and FFI maps is that the CTS constructor will require a reflection of the TBC. The tag value will be automatically generated by reflecting the ‘this’ value, meaning the unique tag for each map object will be the reflection of its own address. Requiring a reflection of its own address forces the object to be a constexpr variable.
@@ -304,6 +312,7 @@ struct FFI_map{
 };
 ```
 
+<a name="List"></a>
 ### List
 
 The compile-time list acts like an append-only list with zero-indexed random access. The list will have one template parameter: the list's value type. The list will include 4 consteval, const-qualified member functions: size, operator[], back, and push.
@@ -427,6 +436,7 @@ struct FFI_list{
 };
 ```
 
+<a name="Variable"></a>
 ### Variable
 
 The compile-time variable is a thin semantic wrapper over the list. The variable will have one template parameter: the variable’s value type. The variable will have a compile-time list as a data member, with the list’s template parameter being the variable’s value type. The current value of the variable will be the back element of the list. When a new value is assigned to the variable, it is pushed to the end of the list. The variable will have two member functions: the assignment operator and an implicit conversion function. 
@@ -482,6 +492,7 @@ struct FFI_variable{
 };
 ```
 
+<a name="Usage-examples"></a>
 ## Usage examples
 ### CTS
 ```cpp
@@ -595,6 +606,7 @@ consteval{
 
 static_assert(ffi_var == 'g');
 ```
+<a name="Bibliography"></a>
 ## Bibliography
 * Reflection for C++26 \(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html\)
 * Annotations for Reflection \(https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3394r4.html\)
