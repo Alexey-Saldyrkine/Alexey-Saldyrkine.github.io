@@ -1,7 +1,5 @@
 # Comparing compilation times for CTS and FFI methods for storing states.
 
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
-
 The purpose of this text is to provide the reader with an understanding of how the compilation times for the CTS and FFI methods compare relative to one another. This text will examine and compare the theoretical complexcity and experimentally measured compilation times. The insertion and lookup times for the map, list, and variable for each method will be measured.
 
 You can find the full description and explanation of the CTS and FFI methods [here]. The short version is that both methods save and retrieve key-value data pairs during compilation time. 
