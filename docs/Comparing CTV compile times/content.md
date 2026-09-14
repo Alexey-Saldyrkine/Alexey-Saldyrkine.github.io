@@ -40,6 +40,9 @@ With this, we can say that the complexity of determining the size of the list is
 
 Each time an element is pushed to the back of the list, the size of the list before insertion must be found. The complexity of finding size is $$O\left(\log_2\left(m\right)\right)$$. If $$n$$ elements are inserted into an empty list, each insertion will increase $$m$$ by one. This means that the complexity of pushing back n elements will be equal to $$O\left(\sum_{i = 0}^n\log_2\left(i\right)\right) = O\left(\log_2\left(n\oc \right)\right)$$. This can be approximated using Stirling’s approximation to $$O\left(n\log_2\left(n\right) - n\log_2\left(e\right) + \frac{1}{2}\log_2\left(2\pi n\right)\right)$$, which is equivalent to $$O\left(n\log_2\left(n\right)\right)$$.
 
+When getting an element from a TCS list by index, you are performing a lookup in a TCS map with a complexity of $$O\left(1\right)$$. So, the complexity of getting $$n$$ elements from a CTS list is $$O\left(n\right)$$.​
+
+To summarize, the complexity of pushing $$n$$ elements into an empty CTS list $$O\left(n\log_2\left(n\right)\right)$$. The complexity of looking up the back element n times is $$O\left(n\right)$$. And the complexity of retrieving n elements by index from a list is $$O\left(n\right)$$. 
 
 WIP.
 
