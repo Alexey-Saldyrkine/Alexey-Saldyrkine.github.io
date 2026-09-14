@@ -29,7 +29,12 @@ Since the list is implemented as an array, each element is stored at an index in
 
 $$O\left(\log_2\left(R\right)\right)$$ is equivalent to $$O\left(\log_2\left(m\right)\right)$$ as:
 
-$$R = C^a,C^{a - 1} < m < C^a\Rightarrow \frac{R}{C} < m < R\Rightarrow \log_2\left(\frac{R}{C}\right) < \log_2\left(m\right) < \log_2\left(R\right)\Rightarrow \log_2\left(R\right) - \log_2\left(C\right) < \log_2\left(m\right) < \log_2\left(R\right)\Rightarrow O\left(\log_2\left(R\right) - \log_2\left(C\right)\right) < O\left(\log_2\left(m\right)\right) < O\left(\log_2\left(R\right)\right),O\left(\log_2\left(C\right)\right) = 0\Rightarrow O\left(\log_2\left(R\right)\right) = O\left(\log_2\left(m\right)\right)$$
+$$R = C^a,C^{a - 1} < m < C^a\Rightarrow$$
+$$ \frac{R}{C} < m < R\Rightarrow$$
+$$\log_2\left(\frac{R}{C}\right) < \log_2\left(m\right) < \log_2\left(R\right)\Rightarrow$$
+$$\log_2\left(R\right) - \log_2\left(C\right) < \log_2\left(m\right) < \log_2\left(R\right)\Rightarrow$$
+$$O\left(\log_2\left(R\right) - \log_2\left(C\right)\right) < O\left(\log_2\left(m\right)\right) < O\left(\log_2\left(R\right)\right),O\left(\log_2\left(C\right)\right) = 0\Rightarrow$$
+$$ O\left(\log_2\left(R\right)\right) = O\left(\log_2\left(m\right)\right)$$
 
 WIP.
 
