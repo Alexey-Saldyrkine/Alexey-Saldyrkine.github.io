@@ -1,6 +1,6 @@
 # Comparing compilation times for CTS and FFI methods for storing states.
 
-The purpose of this text is to provide the reader with an understanding of how the compilation times for the CTS and FFI methods compare relative to one another. This text will examine and compare the theoretical complexcity and experimentally measured compilation times. The insertion and lookup times for the map, list, and variable for each method will be measured.
+The purpose of this text is to provide the reader with an understanding of how the compilation times for the CTS and FFI methods compare relative to one another. This text will examine and compare the theoretical complexity and experimentally measured compilation times. The insertion and lookup times for the map, list, and variable for each method will be measured.
 
 You can find the full description and explanation of the CTS and FFI methods [here]. The short version is that both methods save and retrieve key-value data pairs during compilation time. 
 
@@ -15,12 +15,17 @@ The compilation times measured were from GCC. results may vary in other implemen
 
 The CTS method relies on template specialization to store states. This means that for the CTS map, the complexity of insertion and lookup will be equal to that of creating and instantiating a template specialization.
 
-In GCC, all explicit template specializations are stored in a hash table, where the hash is computed from the base template and the specialization's template arguments. The hash table is global across the entire translation unit. Partial specializations are handled differently, but that is not relevant here, as the CTS method uses only explicit template specializations, not partial ones. This means that using the CTS method effectively amounts to using an inbuilt compile-time hash table. From this we can expect the complexity of inserting an element into a CTS map to be \\(O\left(1\right)\\) on average and $$O\left(n\right)$$ in the worst case scenario. We should expect the same for lookup complexity. For the purposes of this paper, only the average case will be considered.
+In GCC, all explicit template specializations are stored in a hash table, where the hash is computed from the base template and the specialization's template arguments. The hash table is global across the entire translation unit. Partial specializations are handled differently, but that is not relevant here, as the CTS method uses only explicit template specializations, not partial ones. This means that using the CTS method effectively amounts to using an inbuilt compile-time hash table. From this we can expect the complexity of inserting an element into a CTS map to be $$(O\left(1\right)$$ on average and $$O\left(n\right)$$ in the worst case scenario. We should expect the same for lookup complexity. For the purposes of this paper, only the average case will be considered.
 
+### Map
 
+The complexity of inserting or looking up n elements in a CTS map should be $$(O\left(n\right)$$, since each insertion or lookup is $$(O\left(1\right)$$ and is repeated n times.
 
+### List
 
+When an element is pushed to the back of a CTS list, the list's size must be determined first. After which, an insertion into a CTS map is performed. A similar process is used when retrieving the last element of the list. As such, the complexity of the ‘push’ and ‘back’ functions is equal to the complexity of finding the size of the list plus the complexity of an insertion or a lookup in a CTS map. As the complexity of an insertion or a lookup for a CTS map is $$O\left(1\right)$$, then the complexity of an insertion or a lookup of the back element of a CTS list is the same as finding the list's size.
 
+Since the list is implemented as an array, each element is stored at an index in a CTS map starting at 0, and the last element is stored at the index equal to the list's size minus one. To find the size of the list, a binary search for the smallest unused index will be performed on the interval $$\left[0,R\right]$$, where $$R$$ is the smallest power of some hint constant $$C$$ that exceeds the size of the list. At each step of the binary search, a lookup in a CTS map occurs, which has $$O\left(n\right)$$ complexity. Thus, the complexity of a binary search on the interval is $$O\left(\log_2\left(R\right)\right)*O\left(1\right)$$, equivalent to $$O\left(\log_2\left(R\right)\right)$$. 
 
 
 WIP.
