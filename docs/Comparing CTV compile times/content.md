@@ -27,7 +27,7 @@ When an element is pushed to the back of a CTS list, the list's size must be det
 
 Since the list is implemented as an array, each element is stored at an index in a CTS map starting at 0, and the last element is stored at the index equal to the list's size minus one. To find the size of the list, a binary search for the smallest unused index will be performed on the interval $$\left[0,R\right]$$, where $$R$$ is the smallest power of some hint constant $$C$$ that exceeds the size of the list. At each step of the binary search, a lookup in a CTS map occurs, which has $$O\left(n\right)$$ complexity. Thus, the complexity of a binary search on the interval is $$O\left(\log_2\left(R\right)\right)*O\left(1\right)$$, equivalent to $$O\left(\log_2\left(R\right)\right)$$. 
 
-$$O\left(\log_2\left(R\right)\right)$$ is equivalent to $$O\left(\log_2\left(m\right)\right)$$ as:
+$$O\left(\log_2\left(R\right)\right)$$ is equivalent to $$O\left(\log_2\left(m\right)\right)$$, where $$m$$ is the size of the list, as:
 
 $$R = C^a,C^{a - 1} < m < C^a\Rightarrow$$
 $$ \frac{R}{C} < m < R\Rightarrow$$
@@ -35,6 +35,8 @@ $$\log_2\left(\frac{R}{C}\right) < \log_2\left(m\right) < \log_2\left(R\right)\R
 $$\log_2\left(R\right) - \log_2\left(C\right) < \log_2\left(m\right) < \log_2\left(R\right)\Rightarrow$$
 $$O\left(\log_2\left(R\right) - \log_2\left(C\right)\right) < O\left(\log_2\left(m\right)\right) < O\left(\log_2\left(R\right)\right),O\left(\log_2\left(C\right)\right) = 0\Rightarrow$$
 $$ O\left(\log_2\left(R\right)\right) = O\left(\log_2\left(m\right)\right)$$
+
+With this, we can say that the complexity of determining the size of the list is $$O\left(\log_2\left(m\right)\right)$$, and that the complexity of performing a lookup $$n$$ times is $$O\left(\log_2\left(n*m\right)\right)$$, where m is the number of elements in the list.
 
 WIP.
 
