@@ -36,7 +36,7 @@ $$\log_2\left(R\right) - \log_2\left(C\right) < \log_2\left(m\right) < \log_2\le
 $$O\left(\log_2\left(R\right) - \log_2\left(C\right)\right) < O\left(\log_2\left(m\right)\right) < O\left(\log_2\left(R\right)\right),O\left(\log_2\left(C\right)\right) = 0\Rightarrow$$
 $$ O\left(\log_2\left(R\right)\right) = O\left(\log_2\left(m\right)\right)$$
 
-With this, we can say that the complexity of determining the size of the list is $$O\left(\log_2\left(m\right)\right)$$, and that the complexity of of looking up the back element $$n$$ times is $$O\left(\n log_2\left(m\right)\right)$$, equivalent to $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the number of elements in the list.
+With this, we can say that the complexity of determining the size of the list is $$O\left(\log_2\left(m\right)\right)$$, and that the complexity of of looking up the back element $$n$$ times is $$O\left(n\log_2\left(m\right)\right)$$, equivalent to $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the number of elements in the list.
 
 WIP.
 
