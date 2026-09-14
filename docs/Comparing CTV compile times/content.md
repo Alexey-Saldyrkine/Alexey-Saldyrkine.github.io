@@ -63,13 +63,33 @@ The final phase is the most complex one. But in this case, it will be a simple l
 
 As such, overload resolution and FFI lookup have $$O\left(m\right)$$ complexity, where m is the number of overloads previously added.
 
-To summarize, FFI insertion has complexity $$O\left(m\right)$$, and FFI lookup has complexity $$O\left(m\right)$$.
+To summarize, FFI insertion has complexity $$O\left(m\right)$$, and FFI lookup has complexity $$O\left(m\right)$$, where $$m$$ is the number of elements previously inserted.
 
 ### Map
 
-We should expect the complexity of inserting n elements into an empty FFI map to be O\left(\sum_{i = 1}^ni\right) = O\left(\frac{n\left(n + 1\right)}{2}\right) = O\left(n^2\right).
+We should expect the complexity of inserting n elements into an empty FFI map to be $$O\left(\sum_{i = 1}^ni\right) = O\left(\frac{n\left(n + 1\right)}{2}\right) = O\left(n^2\right)$$.
 
 The complexity of looking up n elements by index will be $$O\left(n*m\right)=O\left(n\right)$$, where $$m$$ is the amount of elements previously inserted into all FFI maps.
+
+### List
+
+The FFI list works the same way as the CTS list, but utilizes an FFI map instead of a CTS map.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
