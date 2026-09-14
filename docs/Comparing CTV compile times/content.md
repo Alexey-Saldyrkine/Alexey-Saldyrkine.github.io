@@ -44,27 +44,32 @@ When getting an element from a TCS list by index, you are performing a lookup in
 
 To summarize, the complexity of pushing $$n$$ elements into an empty CTS list $$O\left(n\log_2\left(n\right)\right)$$. The complexity of looking up the back element $$n$$ times is $$O\left(n\right)$$. And the complexity of retrieving $$n$$ elements by index from a list is $$O\left(n\right)$$.
 
-### variable 
+### Variable 
 
 Since the TCS variable is a wrapper around a TCS list, its complexity is the same. Assigning a value to a TCS variable is the same as pushing a value onto the end of a TCS list and has complexity $$O\left(\log_2\left(m\right)\right)$$. Setting the value $$n$$ times has complexity $$O\left(n\log_2\left(n\right)\right)$$. Getting the value of the variable has complexity equal to that of retrieving the last element of the list, i.e., $$O\left(\log_2\left(m\right)\right)$$. Getting the value n times will have complexity $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$.
 
 ## FFI
 The FFI method relies on creating function overloads using friend functions. This means that, for the FFI map, the complexity of insertion and lookup will be equal to that of adding and resolving a function overload.
 
-In GCC, a scope contains a number of code elements. Declarations with the same name, such as function overloads, are stored in a list, and a scope can have multiple of these lists. When a new hidden friend overload is declared, which the FFI method does, the scope’s declaration lists are searched linearly for a list with a matching identifier. Since the number of lists does not increase with the amount of overloads for a single function, this process has $$O\left(1\right)$$ complexity effectively. Once the list is found, the compiler must ensure that the one-definition rule won't be violated if the new overload is added. To do this, the compiler must verify that no existing overload is redefined by the new overload. This process takes O(m) time, where m is the number of existing overloads. This means that the FFI insertion complexity is $$O\left(1\right) + O\left(m\right) = O\left(m\right)$$.
+In GCC, a scope contains a number of code elements. Declarations with the same name, such as function overloads, are stored in a list, and a scope can have multiple of these lists. When a new hidden friend overload is declared, which the FFI method does, the scope’s declaration lists are searched linearly for a list with a matching identifier. Since the number of lists does not increase with the amount of overloads for a single function, this process has $$O\left(1\right)$$ complexity effectively. Once the list is found, the compiler must ensure that the one-definition rule won't be violated if the new overload is added. To do this, the compiler must verify that no existing overload is redefined by the new overload. This process takes $$O\left(m\right)$$ time, where $$m$$ is the number of existing overloads. This means that the FFI insertion complexity is $$O\left(1\right) + O\left(m\right) = O\left(m\right)$$.
 
+Overload resolution is a complex topic, but because the FFI method only adds non-template functions to a single scope, the process is a bit simpler. Overload resolution has three phases: creating the set of candidate functions, trimming the set to only viable functions, and finally, ranking the functions. 
 
+The complexity of gathering candidate functions is $$O\left(1\right)$$ relative to the number of added overload functions, since the FFI method creates no additional scopes when an overload is added. 
 
+The trimming phase is simple, as all the overloads have a single parameter. This phase has complexity $$O\left(m\right)$$, since each added overload must be checked.
 
+The final phase is the most complex one. But in this case, it will be a simple linear search for an overload that matches the parameter type. It will have a complexity of $$O\left(m\right)$$.
 
+As such, overload resolution and FFI lookup have $$O\left(m\right)$$ complexity, where m is the number of overloads previously added.
 
+To summarize, FFI insertion has complexity $$O\left(m\right)$$, and FFI lookup has complexity $$O\left(m\right)$$.
 
+### Map
 
+We should expect the complexity of inserting n elements into an empty FFI map to be O\left(\sum_{i = 1}^ni\right) = O\left(\frac{n\left(n + 1\right)}{2}\right) = O\left(n^2\right).
 
-
-
-
-
+The complexity of looking up n elements by index will be $$O\left(n*m\right)=O\left(n\right)$$, where $$m$$ is the amount of elements previously inserted into all FFI maps.
 
 
 
