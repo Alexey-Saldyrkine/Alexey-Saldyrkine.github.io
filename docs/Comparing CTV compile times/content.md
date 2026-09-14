@@ -38,7 +38,7 @@ $$ O\left(\log_2\left(R\right)\right) = O\left(\log_2\left(m\right)\right)$$
 
 With this, we can say that the complexity of determining the size of the list is $$O\left(\log_2\left(m\right)\right)$$, and that the complexity of of looking up the back element $$n$$ times is $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the number of elements in the list.
 
-Each time an element is pushed to the back of the list, the size of the list before insertion must be found. The complexity of finding size is $$O\left(\log_2\left(m\right)\right)$$. If $$n$$ elements are inserted into an empty list, each insertion will increase $$m$$ by one. This means that the complexity of pushing back n elements will be equal to $$O\left(\sum_{i = 0}^n\log_2\left(i\right)\right) = 1\left(\log_2\left(n!\right)\right)$$. This can be approximated using Stirling’s approximation to $$O\left(n\log_2\left(n\right) - n\log_2\left(e\right) + \frac{1}{2}\log_2\left(2\pi n\right)\right)$$, which is equivalent to $$O\left(n\log_2\left(n\right)\right)$$.
+Each time an element is pushed to the back of the list, the size of the list before insertion must be found. The complexity of finding size is $$O\left(\log_2\left(m\right)\right)$$. If $$n$$ elements are inserted into an empty list, each insertion will increase $$m$$ by one. This means that the complexity of pushing back n elements will be equal to $$O\left(\sum_{i = 1}^n\log_2\left(i\right)\right) = O\left(\log_2\left(n!\right)\right)$$. This can be approximated using Stirling’s approximation to $$O\left(n\log_2\left(n\right) - n\log_2\left(e\right) + \frac{1}{2}\log_2\left(2\pi n\right)\right)$$, which is equivalent to $$O\left(n\log_2\left(n\right)\right)$$.
 
 When getting an element from a TCS list by index, you are performing a lookup in a TCS map with a complexity of $$O\left(1\right)$$. So, the complexity of getting $$n$$ elements from a CTS list is $$O\left(n\right)$$.​
 
@@ -47,6 +47,43 @@ To summarize, the complexity of pushing $$n$$ elements into an empty CTS list $$
 ### variable 
 
 Since the TCS variable is a wrapper around a TCS list, its complexity is the same. Assigning a value to a TCS variable is the same as pushing a value onto the end of a TCS list and has complexity $$O\left(\log_2\left(m\right)\right)$$. Setting the value $$n$$ times has complexity $$O\left(n\log_2\left(n\right)\right)$$. Getting the value of the variable has complexity equal to that of retrieving the last element of the list, i.e., $$O\left(\log_2\left(m\right)\right)$$. Getting the value n times will have complexity $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$.
+
+## FFI
+The FFI method relies on creating function overloads using friend functions. This means that, for the FFI map, the complexity of insertion and lookup will be equal to that of adding and resolving a function overload.
+
+In GCC, a scope contains a number of code elements. Declarations with the same name, such as function overloads, are stored in a list, and a scope can have multiple of these lists. When a new hidden friend overload is declared, which the FFI method does, the scope’s declaration lists are searched linearly for a list with a matching identifier. Since the number of lists does not increase with the amount of overloads for a single function, this process has $$O\left(1\right)$$ complexity effectively. Once the list is found, the compiler must ensure that the one-definition rule won't be violated if the new overload is added. To do this, the compiler must verify that no existing overload is redefined by the new overload. This process takes O(m) time, where m is the number of existing overloads. This means that the FFI insertion complexity is $$O\left(1\right) + O\left(m\right) = O\left(m\right)$$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 WIP.
 
