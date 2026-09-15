@@ -61,15 +61,19 @@ The trimming phase is simple, as all the overloads have a single parameter. This
 
 The final phase is the most complex one. But in this case, it will be a simple linear search for an overload that matches the parameter type. It will have a complexity of $$O\left(m\right)$$.
 
-As such, overload resolution and FFI lookup have $$O\left(m\right)$$ complexity, where m is the number of overloads previously added.
+As such, overload resolution and FFI lookup have $$O\left(m\right)$$ complexity, where $$m$$ is the number of overloads previously added.
 
-To summarize, FFI insertion has complexity $$O\left(m\right)$$, and FFI lookup has complexity $$O\left(m\right)$$, where $$m$$ is the number of elements previously inserted.
+​To check whether a key was inserted into an FFI map, a function overload resolution will occur. As such, it will have complexity $$O\left(m\right)$$. Checking $$n$$ times will have the complexity of $$O\left(n*m\right)=O\left(n\right)$$.
+
+To summarize, FFI insertion has complexity $$O\left(m\right)$$, FFI lookup has complexity $$O\left(m\right)$$, and FFI check has complexity $$O\left(m\right)$$.
 
 ### Map
 
 We should expect the complexity of inserting n elements into an empty FFI map to be $$O\left(\sum_{i = 1}^ni\right) = O\left(\frac{n\left(n + 1\right)}{2}\right) = O\left(n^2\right)$$.
 
 The complexity of looking up n elements by index will be $$O\left(n*m\right)=O\left(n\right)$$, where $$m$$ is the amount of elements previously inserted into all FFI maps.
+
+The complexity of cheking if a FFI map contains an element $$n$$ times is $$O\left(n*m\right)=O\left(n\right)$$.
 
 ### List
 
@@ -95,20 +99,13 @@ Getting the value of the variable has complexity equal to that of retrieving the
 
 
 
-## Summary table for theoretical expectations
-
-|Operation|Method|Complexity, once|Complexity, n times|
-|:---:|:---:|:---:|:---:|
-|map insert|TCS|$$O\left(1\right)$$|$$O\left(n\right)$$|
-|map insert|FFI|$$O\left(m\right)$$|$$O\left(n^2\right)$$|
-|map lookup|TCS|$$O\left(1\right)$$|$$O\left(n\right)$$|
-|map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)$$|
-|map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
+## Summary table
 
 |Operation|TCS|FFI|
 |:---:|:---:|:---:|
 |Map Insert|$$O\left(n\right)$$|$$O\left(n^2\right)$$|
 |Map Lookup|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
+|Map Contains|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
 
 
 
