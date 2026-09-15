@@ -97,11 +97,13 @@ Getting the value of the variable has complexity equal to that of retrieving the
 
 ## Summary table for theoretical expectations
 
-|Method|Operation|Complexity, n times|Complexcity, once|
+|Operation|Method|Complexity, once|Complexity, n times|
 |:---:|:---:|:---:|:---:|
-|TCS|map insert|$$O\left(n\right)$$|$$O\left(1\right)$$|
-
-
+|map insert|TCS|$$O\left(1\right)$$|$$O\left(n\right)$$|
+|map insert|FFI|$$O\left(m\right)$$|$$O\left(n^2\right)$$|
+|map lookup|TCS|$$O\left(1\right)$$|$$O\left(n\right)$$|
+|map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)$$|
+|map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
 
 
 
