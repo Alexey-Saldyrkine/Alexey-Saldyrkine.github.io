@@ -10,18 +10,19 @@ The Friend Function Injection (FFI) method uses function overloads as the storag
 
 The compilation times measured were from GCC 16. results may vary in other implementations or across compiler versions.
 
+## Theoretical expectations
 
-## CTS
+### CTS
 
 The CTS method relies on template specialization to store states. This means that for the CTS map, the complexity of insertion and lookup will be equal to that of creating and instantiating a template specialization.
 
 In GCC, all explicit template specializations are stored in a hash table, where the hash is computed from the base template and the specialization's template arguments. The hash table is global across the entire translation unit. Partial specializations are handled differently, but that is not relevant here, as the CTS method uses only explicit template specializations, not partial ones. This means that using the CTS method effectively amounts to using an inbuilt compile-time hash table. From this we can expect the complexity of inserting an element into a CTS map to be $$O\left(1\right)$$ on average and $$O\left(n\right)$$ in the worst case scenario. We should expect the same for lookup complexity. For the purposes of this paper, only the average case will be considered.
 
-### Map
+#### Map
 
 The complexity of inserting or looking up n elements in a CTS map should be $$O\left(n\right)$$, since each insertion or lookup is $$O\left(1\right)$$ and is repeated n times.
 
-### List
+#### List
 
 When an element is pushed to the back of a CTS list, the list's size must be determined first. After which, an insertion into a CTS map is performed. A similar process is used when retrieving the last element of the list. As such, the complexity of the ‘push’ and ‘back’ functions is equal to the complexity of finding the size of the list plus the complexity of an insertion or a lookup in a CTS map. As the complexity of an insertion or a lookup for a CTS map is $$O\left(1\right)$$, then the complexity of an insertion or a lookup of the back element of a CTS list is the same as finding the list's size.
 
@@ -44,11 +45,11 @@ When getting an element from a TCS list by index, you are performing a lookup in
 
 To summarize, the complexity of pushing $$n$$ elements into an empty CTS list $$O\left(n\log_2\left(n\right)\right)$$. The complexity of looking up the back element $$n$$ times is $$O\left(n\right)$$. And the complexity of retrieving $$n$$ elements by index from a list is $$O\left(n\right)$$.
 
-### Variable 
+#### Variable 
 
 Since the TCS variable is a wrapper around a TCS list, its complexity is the same. Assigning a value to a TCS variable is the same as pushing a value onto the end of a TCS list and has complexity $$O\left(\log_2\left(m\right)\right)$$. Setting the value $$n$$ times has complexity $$O\left(n\log_2\left(n\right)\right)$$. Getting the value of the variable has complexity equal to that of retrieving the last element of the list, i.e., $$O\left(\log_2\left(m\right)\right)$$. Getting the value n times will have complexity $$O\left(n\log_2\left(m\right)\right) = O\left(n\right)$$.
 
-## FFI
+### FFI
 The FFI method relies on creating function overloads using friend functions. This means that, for the FFI map, the complexity of insertion and lookup will be equal to that of adding and resolving a function overload.
 
 In GCC, a scope contains a number of code elements. Declarations with the same name, such as function overloads, are stored in a list, and a scope can have multiple of these lists. When a new hidden friend overload is declared, which the FFI method does, the scope’s declaration lists are searched linearly for a list with a matching identifier. Since the number of lists does not increase with the amount of overloads for a single function, this process has $$O\left(1\right)$$ complexity effectively. Once the list is found, the compiler must ensure that the one-definition rule won't be violated if the new overload is added. To do this, the compiler must verify that no existing overload is redefined by the new overload. This process takes $$O\left(m\right)$$ time, where $$m$$ is the number of existing overloads. This means that the FFI insertion complexity is $$O\left(1\right) + O\left(m\right) = O\left(m\right)$$.
@@ -67,7 +68,7 @@ As such, overload resolution and FFI lookup have $$O\left(m\right)$$ complexity,
 
 To summarize, FFI insertion has complexity $$O\left(m\right)$$, FFI lookup has complexity $$O\left(m\right)$$, and FFI check has complexity $$O\left(m\right)$$.
 
-### Map
+#### Map
 
 We should expect the complexity of inserting n elements into an empty FFI map to be $$O\left(\sum_{i = 1}^ni\right) = O\left(\frac{n\left(n + 1\right)}{2}\right) = O\left(n^2\right)$$.
 
@@ -75,7 +76,7 @@ The complexity of looking up n elements by index will be $$O\left(n*m\right)=O\l
 
 The complexity of cheking if a FFI map contains an element $$n$$ times is $$O\left(n*m\right)=O\left(n\right)$$.
 
-### List
+#### List
 
 The FFI list works the same way as the CTS list, but utilizes an FFI map instead of a CTS map.
 
@@ -89,7 +90,7 @@ When getting an element from a FFI list by index, you are performing a lookup in
 
 ​In summary, the complexity of inserting $$n$$ elements into an empty FFI list is $$O\left(n^2\log_2\left(n\right)\right)$$. The complexity of looking up the back element $$n$$ times is $$O\left(n\right)$$. The complexity of looking up n elements by index is $$O\left(n\right)$$.
 
-### Variant
+#### Variant
 
 As the FFI variable is a wrapper around an FFI list, its complexity is the same.
 
@@ -99,7 +100,7 @@ Getting the value of the variable has complexity equal to that of retrieving the
 
 
 
-## Summary table
+### Summary table
 
 |Operation|TCS|FFI|
 |:---:|:---:|:---:|
