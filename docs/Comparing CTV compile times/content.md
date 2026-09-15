@@ -106,7 +106,11 @@ Getting the value of the variable has complexity equal to that of retrieving the
 |Map Insert|$$O\left(n\right)$$|$$O\left(n^2\right)$$|
 |Map Lookup|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
 |Map Contains|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
-
+|List Push|$$O\left(n\log_2\left(n\right)\right)$$|$$O\left(n^2\log_2\left(n\right)\right)$$|
+|List Back|$$O\left(n\right)$$|$$O\left(n\right)$$|
+|List Get by Index|$$O\left(n\right)$$|$$O\left(n\right)$$|
+|Variable Set|$$O\left(n\log_2\left(n\right)\right)$$|$$O\left(n^2\log_2\left(n\right)\right)$$|
+|Variable Get|$$O\left(n\log_2\left(m\right)\right)=)\left(n\right)$$|$$O\left(n\right)$$|
 
 
 
