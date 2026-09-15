@@ -95,9 +95,11 @@ Getting the value of the variable has complexity equal to that of retrieving the
 
 
 
+## Summary table for theoretical expectations
 
-
-
+|Method|Operation|Complexity, n times|Complexcity, once|
+|:---:|:---:|:---:|:---:|
+|TCS|map insert|$$O\left(n\right)$$|$$O\left(1\right)$$|
 
 
 
