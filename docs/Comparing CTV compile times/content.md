@@ -101,7 +101,7 @@ Getting the value of the variable has complexity equal to that of retrieving the
 
 
 ### Summary table
-#### Expected complexities for performing the operation n times 
+#### Expected complexities for performing the operations n times 
 |Operation|TCS|FFI|
 |:---:|:---:|:---:|
 |Map Insert|$$O\left(n\right)$$|$$O\left(n^2\right)$$|
