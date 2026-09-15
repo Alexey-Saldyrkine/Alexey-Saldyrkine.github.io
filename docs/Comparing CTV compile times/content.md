@@ -79,13 +79,19 @@ The complexity of getting the size of the list will be $$O\left(m\log_2\left(m\r
 
 Each time an element is pushed back, the list size is determined, and an FFI map insertion occurs. The complexity of pushing a single element is $$O\left(m + m\log_2\left(m\right)\right)$$, where $$m$$ is the size of the list. From this, we can say that the complexity of inserting $$n$$ elements into an empty FFI list is $$O\left(\sum_{i = 1}^n\left(i + i\log_2\left(i\right)\right)\right)$$, which can be approximated[note] to $$O\left(\frac{n^2}{2}\log_2\left(n\right) - \frac{n^2}{4} + \frac{n}{2}\log_2\left(n\right) + \frac{n(n + 1)}{2}\right) = O\left(n^2\log_2\left(n\right)\right)$$
 
+The complexity of looking up the back element $$n$$ times is $$OO\left(n*m\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the amount of elements inserted in all FFI maps.
 
+When getting an element from a FFI list by index, you are performing a lookup in a FFI map with a complexity of $$O\left(m\right)$$. So, the complexity of getting $$n$$ elements from a CTS list is $$O\left(n*m\right)=O\left(n\right)$$.​
 
+​In summary, the complexity of inserting $$n$$ elements into an empty FFI list is $$O\left(n^2\log_2\left(n\right)\right)$$. The complexity of looking up the back element $$n$$ times is $$O\left(n\right)$$. The complexity of looking up n elements by index is $$O\left(n\right)$$.
 
+### Variant
 
+As the FFI variable is a wrapper around an FFI list, its complexity is the same.
 
+Assigning a value to a FFI variable is the same as pushing a value to the back of a FFI list and has a complexity of $$O\left(m\log_2\left(m\right)\right)$$. Setting an empty variable’s value $$n$$ times will have a complexity of $$O\left(n^2\log_2\left(n\right)\right)$$.
 
-
+Getting the value of the variable has complexity equal to that of retrieving the last element of the list, i.e., $$O\left(m\log_2\left(m\right)\right)$$. Getting the value $$n$$ times will have a complexity of $$O\left(n*m\log_2\left(m\right)\right) = O\left(n\right)$$.
 
 
 
