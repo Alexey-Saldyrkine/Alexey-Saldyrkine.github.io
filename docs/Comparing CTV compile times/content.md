@@ -79,7 +79,7 @@ The complexity of getting the size of the list will be $$O\left(m\log_2\left(m\r
 
 Each time an element is pushed back, the list size is determined, and an FFI map insertion occurs. The complexity of pushing a single element is $$O\left(m + m\log_2\left(m\right)\right)$$, where $$m$$ is the size of the list. From this, we can say that the complexity of inserting $$n$$ elements into an empty FFI list is $$O\left(\sum_{i = 1}^n\left(i + i\log_2\left(i\right)\right)\right)$$, which can be approximated[note] to $$O\left(\frac{n^2}{2}\log_2\left(n\right) - \frac{n^2}{4} + \frac{n}{2}\log_2\left(n\right) + \frac{n(n + 1)}{2}\right) = O\left(n^2\log_2\left(n\right)\right)$$
 
-The complexity of looking up the back element $$n$$ times is $$OO\left(n*m\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the amount of elements inserted in all FFI maps.
+The complexity of looking up the back element $$n$$ times is $$O\left(n*m\log_2\left(m\right)\right) = O\left(n\right)$$, where $$m$$ is the amount of elements inserted in all FFI maps.
 
 When getting an element from a FFI list by index, you are performing a lookup in a FFI map with a complexity of $$O\left(m\right)$$. So, the complexity of getting $$n$$ elements from a CTS list is $$O\left(n*m\right)=O\left(n\right)$$.​
 
@@ -104,6 +104,11 @@ Getting the value of the variable has complexity equal to that of retrieving the
 |map lookup|TCS|$$O\left(1\right)$$|$$O\left(n\right)$$|
 |map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)$$|
 |map lookup|FFI|$$O\left(m\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
+
+|Operation|TCS|FFI|
+|:---:|:---:|:---:|
+|Map Insert|$$O\left(n\right)$$|$$O\left(n^2\right)$$|
+|Map Lookup|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
 
 
 
