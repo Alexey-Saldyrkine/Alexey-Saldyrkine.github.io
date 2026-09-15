@@ -8,7 +8,7 @@ The Class Template Specialization (CTS) method uses class template specializatio
 
 The Friend Function Injection (FFI) method uses function overloads as the storage medium. The function parameter types are the key, and the value is returned when the function is called. To store a key-value pair, a function overload is created with the key types as the function parameter types and the value as the return value. To retrieve a value, the overloaded function is called with values of types matching the key types, and the result of the call is the value. To check whether a given key was inserted, the function parameter is checked for an identifier. It will have an identifier if and only if the key was inserted previously. Details can be found [here].
 
-The compilation times measured were from GCC. results may vary in other implementations or across compiler versions.
+The compilation times measured were from GCC 16. results may vary in other implementations or across compiler versions.
 
 
 ## CTS
@@ -112,10 +112,19 @@ Getting the value of the variable has complexity equal to that of retrieving the
 |Variable Set|$$O\left(n\log_2\left(n\right)\right)$$|$$O\left(n^2\log_2\left(n\right)\right)$$|
 |Variable Get|$$O\left(n*\log_2\left(m\right)\right)=O\left(n\right)$$|$$O\left(n*m\log_2\left(m\right)\right) = O\left(n\right)$$|
 
+## Experimental data 
 
+The goal of measuring compilation times is to test whether theoretical expectations align with experimental data. There are 5 operations for each method: map insert, map lookup, list push, list back, and list lookup, which will be tested. The functions for the variable won't be tested, as they are essentially identical to the list's functions, so all results for the list apply to the variable. A visual method will be used to decide whether the expected complexity is accurate for an operation. The resulting compilation times will be mapped on a graph. On the graph, the x-axis will be the number of times an operation was performed. The y-axis will be the compilation time to perform x operations. A function of the expected complexity will be fitted to the data. The expected complexity will be considered accurate if the resulting data points fit the resulting function. This way, if we expect an operation to have O(n) complexity, the data points should lie on a straight line. 
 
+### Methodology
 
+All data was gathered from measuring the compilation time of the GCC C++ compiler version 16.1 on a Linux machine.
 
+As compilation is a deterministic process, there should be a minimum perfect time that a compilation takes. Every measured time will be the sum of this perfect time and some time added due to interference. This interference comes from non-deterministic sources, such as being scheduled on a core with other processes, being interrupted, page faults, and other hardware and system delays. Since I wanted to get as close to this perfect time as possible, I tried to minimize outside interference by isolating the cores that would run the compiler, so that no other processes would be scheduled on those cores. I also set each compilation to run on its own core so that they would not interfere with each other directly. I also measured only the time the compilation spent in user mode to minimize system interference. 
+
+Even with this, compiling a program with the same parameters multiple times will result in different compilation times. So to get as close to the perfect value as possible, the minimal time will be counted as the compilation time for the set of parameters. I arbitrarily decided that the minimum of K compilations is good enough. This means that each data point represents the minimum time obtained by independently compiling the same program with the same parameters K times.
+
+For gathering the experimental data, two types of programs were used: the master and test programs. The master program will launch multiple compilations of test programs in parallel and record their compilation times. The compilation will be assigned to a core using the ‘taskset’ program, and compilation times will be measured using the ‘/bin/time’ command with millisecond precision and measuring only time in user space. Each test program will have several parameters, specified as predefined macros via the -D flag. The most important of these parameters will be x, the number of times the tested operation will be performed. The x parameter will range from 0 to n with a given step between compilations of the same test. For the lookup and contains tests, a second parameter, m, will be provided. This parameter will be the number of insertion or push operations performed before the tested operation begins. The parameter m will not change between compilations of the same test. Since only the x parameter will change between compilations of the same test, the resulting data for the test will show only differences in compilation times caused by the tested operation. 
 
 
 
