@@ -104,7 +104,7 @@ Getting the value of the variable has complexity equal to that of retrieving the
 #### Expected complexities for performing the operations $$n$$ times 
 
 |Operation|TCS|FFI|
-|:---:|:---:|:---:|
+|:---|:---|:---|
 |Map Insert|$$O\left(n\right)$$|$$O\left(n^2\right)$$|
 |Map Lookup|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
 |Map Contains|$$O\left(n\right)$$|$$O\left(n*m\right)=O\left(n\right)$$|
