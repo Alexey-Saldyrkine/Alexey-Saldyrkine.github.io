@@ -133,7 +133,7 @@ For gathering the experimental data, two types of programs were used: the master
 The test program for measuring map insertion time will only use the n parameter. It will create a single empty CTS or FFI map and insert n elements into it. The element’s key and value type will both be int. The elements’ keys and values will be equal and range from 0 to n-1. The expected complexity for CTS is $$O\left(n\right)$$ and $$O\left(n^2\right)$$ for FFI. This means that on the graph, the fitted function for CTS will be $$f\left(x\right) = b*\left(x - c\right) + a$$, and for FFI, $$f\left(x\right) = b*\left(x - c\right)^2 + a$$. We should expect that for larger values of n, the CTS method will be faster than the FFI method.
 
 
-
+![Map Insert Graph](map_insert.png)
 
 
 
