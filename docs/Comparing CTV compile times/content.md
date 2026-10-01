@@ -126,15 +126,24 @@ As compilation is a deterministic process, there should be a minimum perfect tim
 
 Even with this, compiling a program with the same parameters multiple times will result in different compilation times. So to get an accurate value, the average time will be counted as the compilation time for the set of parameters. I arbitrarily decided that the average of 40 compilations is good enough. This means that each data point represents the average time obtained by independently compiling the same program with the same parameters 40 times.
 
-For gathering the experimental data, two types of programs were used: the master and test programs. The master program will launch multiple compilations of test programs in parallel and record their compilation times. The compilation will be assigned to a core using the ‘taskset’ program, and compilation times will be measured using the ‘/bin/time’ command with millisecond precision and measuring only time in user space. Each test program will have several parameters, specified as predefined macros via the -D flag. The most important of these parameters will be n, the number of times the tested operation will be performed. The n parameter will range from 0 to 5'000 with a step of 100 between compilations of the same test. For the lookup and contains tests, a second parameter, m, will be provided. This parameter will be the number of insertion or push operations performed before the tested operation begins. The parameter m will always be 2'500. Since only the x parameter will change between compilations of the same test, the resulting data for the test will show only differences in compilation times caused by the tested operation. 
+For gathering the experimental data, two types of programs were used: the master and test programs. The master program will launch multiple compilations of test programs in parallel and record their compilation times. The compilation will be assigned to a core using the ‘taskset’ program, and compilation times will be measured using the ‘/bin/time’ command with millisecond precision and measuring only time in user space. Each test program will have several parameters, specified as predefined macros via the -D flag. The most important of these parameters will be n, the number of times the tested operation will be performed. The n parameter will range from 0 to 5000 with a step of 100 between compilations of the same test. For the lookup and contains tests, a second parameter, m, will be provided. This parameter will be the number of insertion or push operations performed before the tested operation begins. The parameter m will always be 2500. Since only the n parameter will change between compilations of the same test, the resulting data for the test will show only differences in compilation times caused by the tested operation. 
+
+!change to min again.
 
 ### Map insert
 
-The test program for measuring map insertion time will only use the n parameter. It will create a single empty CTS or FFI map and insert n elements into it. The element’s key and value type will both be int. The elements’ keys and values will be equal and range from 0 to n-1. The expected complexity for CTS is $$O\left(n\right)$$ and $$O\left(n^2\right)$$ for FFI. This means that on the graph, the fitted function for CTS will be $$f\left(x\right) = b*\left(x - c\right) + a$$, and for FFI, $$f\left(x\right) = b*\left(x - c\right)^2 + a$$. We should expect that for larger values of n, the CTS method will be faster than the FFI method.
+The test program for measuring map insertion time will only use the n parameter. It will create a single empty CTS or FFI map and insert n elements into it. The element’s key and value type will both be int. The elements’ keys and values will be equal and range from 0 to n-1. The expected complexity for CTS is $$O\left(n\right)$$ and $$O\left(n^2\right)$$ for FFI. This means that on the graph, the fitted function for CTS will be $$f\left(x\right) = \left(x - a\right)*b + c$$, and for FFI, $$f\left(x\right) = \left(x - a\right)^2*b + c$$. We should expect that for larger values of n, the CTS method will be faster than the FFI method.
 
 
 ![Map Insert Graph](map_insert.png)
 
+As you can see the functions line up nicely with the data. This means that the theoretical expectations line up with the experimental data.
+
+Interestingly, the FFI method is faster than the CTS method when the number of insertions is less than 2500. After which, FFI becomes exponentially slower.
+
+If you're interested, the exact variables for the functions are:
+TCS: $$a = -1.43162365*e^{2}, b = 1.31684206*e^{-3}, c = 5.09132925*e^{-1}$$
+FFI: $$a = 2.06616253*e^{2}, b = 6.19358379*e^{-7}, c = 8.26685213*e^{-1}$$
 
 
 
